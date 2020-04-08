@@ -70,9 +70,16 @@ body {
   font-size: 12px;
 }
 
-.notify-danger {
+.error {
     padding: 0.8rem;
     margin: 0.8rem;
-    background-color: #f54336;
     color: #fff;
+    background-color: #f54336;
+}
+
+.success {
+  padding: 0.8rem;
+  margin: 0.8rem;
+  color: #fff;
+  background-color: #1be75f;
 }

@@ -1,11 +1,13 @@
 from flask_login import UserMixin
 from . import db
 
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(100))
+
 
 class Link(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -15,7 +17,6 @@ class Link(UserMixin, db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return "%s - %s"%(self.link, self.new_link)
+        return self.link
 
-#TODO add statistics table
-
+# TODO add statistics table

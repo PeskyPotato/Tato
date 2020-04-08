@@ -1,24 +1,21 @@
-'''
-Code apated from PrettyPrinted
-https://github.com/PrettyPrinted/youtube_video_code/blob/master/2019/01/29/Authentication%20and%20Authorization%20With%20Flask-Login/auth/
-'''
 from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 def create_app():
     app = Flask(__name__)
 
     app.config['SECRET_KEY'] = 'secretkeygoesherewhoooo'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shortner.db'
 
     db.init_app(app)
 
     login_manager = LoginManager()
     # if not logged in redirects to login view
-    login_manager.login_view='auth.login'
+    login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
     from .models import User

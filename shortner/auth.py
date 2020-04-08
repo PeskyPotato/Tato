@@ -6,9 +6,11 @@ from . import db
 
 auth = Blueprint("auth", __name__)
 
+
 @auth.route("/login")
 def login():
     return render_template("login.html")
+
 
 @auth.route("/login", methods=["POST"])
 def login_post():
@@ -19,20 +21,23 @@ def login_post():
     user = User.query.filter_by(username=username).first()
 
     if not user or not check_password_hash(user.password, password):
-        flash('Please check login details and try again.')
+        flash('Please check login details and try again.', "error")
         return redirect(url_for("auth.login"))
-    
+
     # creates session
     login_user(user, remember=remember)
 
     return redirect(url_for("profile.profile_route"))
 
+
 @auth.route("/signup")
 def signup():
     return render_template("signup.html")
 
+
 @auth.route("/signup", methods=["POST"])
 def signup_post():
+    # TODO ignore empty credentials, make fields required
     username = request.form.get("username")
     name = request.form.get("name")
     password = request.form.get("password")
@@ -40,17 +45,18 @@ def signup_post():
     user = User.query.filter_by(username=username).first()
 
     if user:
-        flash('Username already exists.')
-        return redirect(url_for("auth.login"))
+        flash('Username already exists.', "error")
+        return redirect(url_for("auth.signup"))
 
-    new_user = User(username=username, name=name, password=generate_password_hash(password, method="sha256"))
+    new_user = User(username=username, name=name,
+                    password=generate_password_hash(password, method="sha256"))
 
     db.session.add(new_user)
     db.session.commit()
 
-    #TODO make flash green to show success
-    flash("Successfully signed up!")
+    flash("Successfully signed up!", "success")
     return redirect(url_for("auth.login"))
+
 
 @auth.route("/logout")
 @login_required

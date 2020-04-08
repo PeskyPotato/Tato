@@ -6,10 +6,10 @@
 </h1>
 
 <div class="form">
-  {% with messages = get_flashed_messages() %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
-      <div class="notify-danger">
-          {{ messages[0] }}
+      <div class="{{ messages[0][0] }}">
+          {{ messages[0][1] }}
       </div>
   {% endif %}
   {% endwith %}
