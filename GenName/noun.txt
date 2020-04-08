@@ -1,0 +1,5 @@
+chair
+table
+potato
+lemon
+squid

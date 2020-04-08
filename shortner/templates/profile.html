@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Welcome, {{ name }}!
+</h1>
+
+<div class="form">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+      <div class="notify-danger">
+          {{ messages[0] }}
+      </div>
+  {% endif %}
+  {% endwith %}
+  <form method="POST" action="/link" class="login-form">
+  <input type="text" name="url" placeholder="https://google.com/"/>
+  <button>Enter</button>
+  </form>
+</div>
+
+{% endblock %}
