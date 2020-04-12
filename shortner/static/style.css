@@ -27,7 +27,7 @@ body {
 }
 .center {
     margin: auto;
-    width: 50%;
+    /* width: 50%; */
     padding: 10px;
     text-align: center;
 }
@@ -82,4 +82,89 @@ body {
   margin: 0.8rem;
   color: #fff;
   background-color: #1be75f;
+}
+
+/* Card */
+.card-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 30rem;
+  border: .2rem;
+  border-radius: 2px;
+  border-color: #333333;
+  border-style: solid;
+}
+
+.list-item:after,
+.list-item:before {
+  content: "";
+  display: table;
+  clear: both
+}
+
+.list-item {
+  padding: 1rem 1rem;
+}
+
+.list-content {
+  padding: .1rem 1rem;
+}
+
+.stats {
+  margin: .4rem;
+}
+
+/* Header URL */
+header a {
+  text-decoration: none;
+}
+
+header a:visited {
+  color: #BBB;
+}
+
+.list-item header {
+  font-size: 1.1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  padding: 0.01em;
+}
+
+.gray {
+  background-color: #333;
+  color: #FFF;
+  border-bottom: #333;
+  border-bottom-style: solid;
+  vertical-align: middle;
+  padding: .4rem; 
+}
+
+.gray:hover {
+  background-color: #111;
+}
+
+/* Ripple effect 
+https://codepen.io/finnhvman/pen/jLXKJw
+*/
+.ripple {
+  background-position: center;
+  transition: background 0.8s;
+}
+
+.ripple:hover {
+  background: #BBB radial-gradient(circle, transparent 1%, #BBB 1%) center/15000%;
+  cursor: pointer;
+}
+
+.ripple:active {
+  background-color: #555;
+  background-size: 100%;
+  transition: background 0s;
 }

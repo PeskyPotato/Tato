@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 import re
 import GenName
-from .models import Link
+from .models import Link, Stats
 from . import db
 
 profile = Blueprint('profile', __name__)
@@ -11,8 +11,16 @@ profile = Blueprint('profile', __name__)
 @profile.route("/profile")
 @login_required
 def profile_route():
-    # Same format as User model
-    return render_template("profile.html", name=current_user.name)
+    # TODO list all user created links
+    # TODO display statistics for each link
+
+    links_obj = Link.query.filter_by(user_id=current_user.id).all()
+    links = []
+    for i in range(len(links_obj)):
+        links.append(links_obj[i].__dict__)
+        links[i]["clicks"] = Stats.query.filter_by(link_id=links[i]["id"]).count()
+    print(links)
+    return render_template("profile.html", name=current_user.name, links=links)
 
 
 @profile.route("/link", methods=["POST"])

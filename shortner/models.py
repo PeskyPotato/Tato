@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+from sqlalchemy import func
 from . import db
 
 
@@ -16,7 +17,9 @@ class Link(UserMixin, db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __repr__(self):
-        return self.link
 
-# TODO add statistics table
+class Stats(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime(), default=func.now())
+
+    link_id = db.Column(db.Integer, db.ForeignKey('link.id'))
