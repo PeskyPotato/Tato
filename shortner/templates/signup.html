@@ -6,13 +6,18 @@
     {% if messages %}
         <div class="{{ messages[0][0] }}">
             {{ messages[0][1] }}
+            {% if messages|length > 1 %}
+                {% for message in messages[1:] %}
+                    <li>{{ message[1] }}</li>
+                {% endfor %}
+            {% endif %}
         </div>
     {% endif %}
     {% endwith %}
     <form method="POST" action="/signup" class="login-form">
         <input type="text" name="name" placeholder="Name"/>
-        <input type="text" name="username" placeholder="Username"/>
-        <input type="password" name="password" placeholder="Password"/>
+        <input type="text" name="username" placeholder="Username"/ required>
+        <input type="password" name="password" placeholder="Password"/ required>
     <button>Sign up</button>
     <p class="message">Already registered? <a href="{{ url_for('auth.login') }}">Login</a></p>
     </form>
