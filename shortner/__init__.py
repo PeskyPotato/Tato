@@ -11,6 +11,8 @@ def create_app():
     app.config['SECRET_KEY'] = 'secretkeygoesherewhoooo'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shortner.db'
 
+    app.config['SIGNUP'] = True
+
     db.init_app(app)
 
     login_manager = LoginManager()

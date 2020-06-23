@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, current_app
 from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
 from .models import User
 from . import db
 
@@ -31,13 +32,23 @@ def login_post():
 
     return redirect(url_for("profile.profile_route"))
 
+def signup_check(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_app.config["SIGNUP"]:
+            return redirect(url_for("main.index"))
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 @auth.route("/signup")
+@signup_check
 def signup():
     return render_template("signup.html")
 
 
 @auth.route("/signup", methods=["POST"])
+@signup_check
 def signup_post():
     username = request.form.get("username")
     name = request.form.get("name")
@@ -52,8 +63,11 @@ def signup_post():
         flash("1 or more digits", "error")
         return redirect(url_for("auth.signup"))
 
-    user = User.query.filter_by(username=username).first()
+    if not username.isalnum():
+        flash("Inavlid uesrname.", "error")
+        return redirect(url_for("auth.signup"))
 
+    user = User.query.filter_by(username=username).first()
     if user:
         flash('Username already exists.', "error")
         return redirect(url_for("auth.signup"))
@@ -74,11 +88,10 @@ def logout():
     logout_user()
     return redirect(url_for("main.index"))
 
-'''
-Source: https://stackoverflow.com/a/32542964/6340707
-'''
+
 def password_check(password):
     """
+    Source: https://stackoverflow.com/a/32542964/6340707
     Verify the strength of 'password'
     Returns a dict indicating the wrong criteria
     A password is considered strong if:
@@ -105,13 +118,13 @@ def password_check(password):
     symbol_error = re.search(r"[ !#$%&'()*+,-./[\\\]^_`{|}~"+r'"]', password) is None
 
     # overall result
-    password_ok = not ( length_error or digit_error or uppercase_error or lowercase_error or symbol_error )
+    password_ok = not (length_error or digit_error or uppercase_error or lowercase_error or symbol_error)
 
     return {
-        'password_ok' : password_ok,
-        'length_error' : length_error,
-        'digit_error' : digit_error,
-        'uppercase_error' : uppercase_error,
-        'lowercase_error' : lowercase_error,
-        'symbol_error' : symbol_error,
+        'password_ok': password_ok,
+        'length_error': length_error,
+        'digit_error': digit_error,
+        'uppercase_error': uppercase_error,
+        'lowercase_error': lowercase_error,
+        'symbol_error': symbol_error,
     }

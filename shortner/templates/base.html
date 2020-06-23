@@ -19,12 +19,12 @@
         {% if not current_user.is_authenticated %}
         <a class="nav-item" href="{{ url_for('auth.login') }}">Login</a>
         {% endif %}
-        {% if not current_user.is_authenticated %}
+        {% if not current_user.is_authenticated and config.SIGNUP == True %}
         <a class="nav-item" href="{{ url_for('auth.signup') }}">Sign up</a>
         {% endif %}
         {% if current_user.is_authenticated %}
         <a class="nav-item" href="{{ url_for('auth.logout') }}">Logout</a>
-        {% endif %}    
+        {% endif %}
     </nav>
     <!-- TODO Adjust styling so every page is not centered -->
     <section class="center">

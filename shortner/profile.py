@@ -19,7 +19,6 @@ def profile_route():
     for i in range(len(links_obj)):
         links.append(links_obj[i].__dict__)
         links[i]["clicks"] = Stats.query.filter_by(link_id=links[i]["id"]).count()
-    print(links)
     return render_template("profile.html", name=current_user.name, links=links)
 
 
