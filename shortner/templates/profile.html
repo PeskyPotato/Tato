@@ -17,20 +17,33 @@
   </form>
 </div>
 
-<ul class="card-list">
-  {% for link in links %}
-    <li class="list-item">
-      <div class="card ripple">
-        <div class="gray">
-          <header>
-            <a href="{{ link.link }}">{{ link.link }}</a>
-          </header>
-        </div>
-        <div class="stats">URL: https://localhost:5000/s/{{ link.new_link }}</div>
-        <div class="stats">Clicks: {{ link.clicks }}</div>
-      </div>
-    </li>
-  {% endfor %}
-</ul>
+<table id="links">
+  <thead>
+    <tr>
+      <th>Generated URL</th>
+      <th>Original URL</th>
+      <th>Clicks</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for link in links %}
+      <tr>
+        <td><a href="http://localhost:5000/s/{{ link.new_link }}">{{ link.new_link }}</a></td>
+        <td><a href="{{ link.link }}">{{ link.link }}</a></td>
+        <td>{{ link.clicks }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<script>
+  $(document).ready(function() {
+    $('#links').DataTable({
+      "pageLength": 20
+    });
+  });
+</script>
 {% endblock %}
