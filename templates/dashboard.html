@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Tato</h1>
+<p>The useless URL "shortner"</p>
+
+<div class="form">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+      <div class="{{ messages[0][0] }}">
+          {{ messages[0][1] }}
+      </div>
+  {% endif %}
+  {% endwith %}
+  <form method="POST" action="{{ url_for('api.link_create') }}" class="login-form">
+  <input type="text" name="url" placeholder="https://google.com/"/>
+  <button>Enter</button>
+  </form>
+</div>
+
+<table id="links">
+  <thead>
+    <tr>
+      <th>Generated URL</th>
+      <th>Original URL</th>
+      <th>Clicks</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for link in links %}
+      <tr>
+        <td><a href="{{ config['BASE_URL'] }}s/{{ link[2] }}">{{ link[2] }}</a></td>
+        <td><a href="{{ link[1] }}">{{ link[1] }}</a></td>
+        <td>{{ link.clicks }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<script>
+  $(document).ready(function() {
+    $('#links').DataTable({
+      "pageLength": 20
+    });
+  });
+</script>
+{% endblock %}
